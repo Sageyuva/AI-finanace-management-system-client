@@ -7,6 +7,7 @@ function App() {
   return (
     <>
    <h1>Finaura</h1>
+   <p>shrenik and yuvaraj will be working here</p>
     </>
   )
 }
