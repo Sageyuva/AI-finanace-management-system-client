@@ -3,6 +3,7 @@ import {toast} from "sonner"
 import Link from "next/link";
 import { User, Mail, Lock, Eye, EyeOff, ArrowRight, Check, X } from "lucide-react";
 import { useState } from "react";
+import { signUpApi } from "@/lib/api/userAuth/userAuthApi";
 
 export default function SignUpPage() {
     const [name ,setname] = useState("")
@@ -74,9 +75,14 @@ export default function SignUpPage() {
 
     // If no errors, proceed
     if (Object.keys(newErrors).length === 0) {
-        toast.success("Account created successfully!")
-        console.log("Now", { name, email, password });
-        // alert("Account created successfully! (Check console for data)");
+      try {
+        const signUp =  signUpApi({name,email,password})
+        console.log(signUp)
+        toast.success("Account created successfully! , Please check mail for verification")
+      } catch (error) {
+        console.log(error)
+        toast.error("Account creation failed!")
+      }
     }
   }
 
