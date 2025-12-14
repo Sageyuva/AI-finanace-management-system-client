@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { Loader2, CheckCircle2, XCircle, ArrowRight } from "lucide-react";
 import { useState, useEffect } from "react";
+import { verityAccount } from "@/lib/api/userAuth/userAuthApi";
 
 export default function VerifyPage() {
   // Status state: 'loading' | 'success' | 'error'
@@ -10,13 +11,22 @@ export default function VerifyPage() {
   // user will implement the actual API logic later.
   const [status, setStatus] = useState<'loading' | 'success' | 'error'>('loading');
 
+const verifyAccount = async(userId : string , token : string) => {
+    try {
+      const verify =await  verityAccount(userId,token)
+      if(verify.status === 200){
+        setStatus('success')
+      }
+    } catch (error) {
+      setStatus('error')
+    }
+}
+
   // SIMULATION: Demo visual transition (Remove this useEffect when integrating API)
   useEffect(() => {
-    const timer = setTimeout(() => {
-      // Toggle this to 'error' to see the error state
-      setStatus('success'); 
-    }, 3000);
-    return () => clearTimeout(timer);
+    const userId = new URLSearchParams(window.location.search).get("userId")
+    const token = new URLSearchParams(window.location.search).get("token")
+    verifyAccount(userId!,token!)
   }, []);
 
   return (

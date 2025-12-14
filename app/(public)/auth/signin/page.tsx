@@ -1,8 +1,32 @@
+"use client"
 import Link from "next/link";
+import { toast } from "sonner";
 import { Mail, Lock, Eye, ArrowRight } from "lucide-react";
-
+import { useState } from "react";
+import { signInApi } from "@/lib/api/userAuth/userAuthApi";
+import Cookies from "js-cookie";
 export default function SignInPage() {
-  return (
+
+
+    const [email, setEmail] = useState('')
+    const[ password, setPassword] = useState('')
+
+  const signIn = async() => {
+try {
+    const signin = await signInApi({email,password})
+    console.log("token" ,  signin.data.data)
+    Cookies.set("token",signin.data.data)
+    toast.success("Signin Success")
+    setTimeout(() => {
+        window.location.href = "/home"
+    }, 1000);
+} catch (error) {
+    toast.error("Signin Failed")
+}    
+  }
+
+
+    return (
     <div className="w-full bg-transparent text-white animate-in fade-in slide-in-from-bottom-4 duration-700">
       {/* 1. Header */}
       <div className="mb-8 text-center">
@@ -21,6 +45,8 @@ export default function SignInPage() {
                     <Mail size={18} />
                 </div>
                 <input 
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
                     type="email" 
                     id="email"
                     className="w-full bg-white/5 border border-white/10 rounded-lg py-3 pl-10 pr-4 text-white placeholder:text-gray-600 focus:outline-none focus:border-emerald-500/50 focus:ring-1 focus:ring-emerald-500/50 transition-all font-sans"
@@ -39,6 +65,8 @@ export default function SignInPage() {
                     <Lock size={18} />
                 </div>
                 <input 
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
                     type="password" 
                     id="password"
                     className="w-full bg-white/5 border border-white/10 rounded-lg py-3 pl-10 pr-10 text-white placeholder:text-gray-600 focus:outline-none focus:border-emerald-500/50 focus:ring-1 focus:ring-emerald-500/50 transition-all font-sans"
@@ -65,6 +93,7 @@ export default function SignInPage() {
 
         {/* 5. Sign In Button */}
         <button 
+        onClick={signIn}
             type="button" 
             className="w-full py-3 px-4 bg-[#108981] hover:bg-[#0d746d] text-white font-semibold rounded-lg shadow-lg shadow-emerald-900/20 transition-all duration-200 transform hover:scale-[1.01] flex items-center justify-center gap-2 cursor-pointer"
         >
