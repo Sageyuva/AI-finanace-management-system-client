@@ -14,8 +14,8 @@ export default function SignInPage() {
   const signIn = async() => {
 try {
     const signin = await signInApi({email,password})
-    console.log("token" ,  signin.data.data)
-    Cookies.set("token",signin.data.data)
+    const token = signin?.data?.data || ""
+    Cookies.set("token",token)
     toast.success("Signin Success")
     setTimeout(() => {
         window.location.href = "/home"
