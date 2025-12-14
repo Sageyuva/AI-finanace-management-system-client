@@ -9,3 +9,8 @@ export interface SignupInterface {
     email:string,
     password:string,
 }  
+
+
+export interface SignInResponse {
+data:string
+}

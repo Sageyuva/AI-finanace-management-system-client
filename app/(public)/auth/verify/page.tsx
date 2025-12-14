@@ -13,10 +13,8 @@ export default function VerifyPage() {
 
 const verifyAccount = async(userId : string , token : string) => {
     try {
-      const verify =await  verityAccount(userId,token)
-      if(verify?.status === 200){
+      const verify =await verityAccount(userId,token)
         setStatus('success')
-      }
     } catch (error) {
       setStatus('error')
     }

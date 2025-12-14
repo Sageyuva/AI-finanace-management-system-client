@@ -1,6 +1,6 @@
 import { signInUrl, signUpUrl, verifuUrl } from "@/lib/utils/urlConstants";
 import apiClient from "../axiosClient";
-import { SignupInterface , SigninInterface } from "@/lib/utils/types";
+import { SignupInterface , SigninInterface ,SignInResponse } from "@/lib/utils/types";
 
 export const signUpApi = async (SignupInterface:SignupInterface)=> {
     try {
@@ -23,7 +23,7 @@ export const verityAccount = async(userId : string , token : string) => {
 export const signInApi = async(SigninInterface:SigninInterface) => {
 try {
     const response = await apiClient.post(signInUrl,SigninInterface)
-    return response
+    return response.data.data
 } catch (error) {
     return error
 }

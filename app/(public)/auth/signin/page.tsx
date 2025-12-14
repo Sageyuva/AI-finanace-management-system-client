@@ -14,13 +14,15 @@ export default function SignInPage() {
   const signIn = async() => {
 try {
     const signin = await signInApi({email,password})
-    const token = signin?.data?.data || ""
-    Cookies.set("token",token)
+    const token = signin
+    console.log(signin)
+ Cookies.set("token",token)
     toast.success("Signin Success")
     setTimeout(() => {
         window.location.href = "/home"
     }, 1000);
 } catch (error) {
+    console.log(error)
     toast.error("Signin Failed")
 }    
   }
