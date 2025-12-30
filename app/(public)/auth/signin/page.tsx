@@ -5,7 +5,9 @@ import { Mail, Lock, Eye, ArrowRight, EyeOff } from "lucide-react";
 import { useState } from "react";
 import { signInApi } from "@/lib/api/userAuth/userAuthApi";
 import Cookies from "js-cookie";
+import { useRouter } from "next/navigation";
 export default function SignInPage() {
+  const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
@@ -16,10 +18,13 @@ export default function SignInPage() {
       setLoading(true);
       const signin = await signInApi({ email, password });
       console.log(signin);
-      if (signin?.data?.code === 200 && signin?.data?.success) {
+      const status = signin.data.code;
+      const token = signin.data.data;
+      const success = signin.data.success;
+      if (status === 200 && success) {
         toast.success("Signin Success");
-        Cookies.set("token", signin?.data?.data?.token);
-        window.location.href = "/";
+        Cookies.set("token", token);
+        router.push("/dashboard");
       }
     } catch (error: any) {
       const message = error?.response?.data?.message || "Something went wrong";

@@ -23,7 +23,7 @@ export default function proxy(request: NextRequest) {
   if (token) {
     // If user tries to access public auth routes (like login), redirect to /home
     if (isPublicRoute) {
-      return NextResponse.redirect(new URL('/home', request.url))
+      return NextResponse.redirect(new URL('/dashboard', request.url))
     }
   }
 
