@@ -74,7 +74,7 @@ function SidebarComponent() {
       title: "AI Assistant",
       href: "/chat",
       icon: BotMessageSquare,
-      badge: "Pro",
+      badge: "BETA",
     },
   ];
 
