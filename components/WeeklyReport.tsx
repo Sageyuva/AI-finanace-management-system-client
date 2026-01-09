@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useMemo } from "react";
 import {
   Area,
   AreaChart,
@@ -18,15 +18,18 @@ import {
 } from "@/components/ui/card";
 import { ChartContainer, ChartTooltip } from "@/components/ui/chart";
 
-const chartData = [
-  { day: "Mon", spent: 120 },
-  { day: "Tue", spent: 80 },
-  { day: "Wed", spent: 250 },
-  { day: "Thu", spent: 150 },
-  { day: "Fri", spent: 300 },
-  { day: "Sat", spent: 180 },
-  { day: "Sun", spent: 40 },
-];
+interface Transaction {
+  _id: string;
+  amount: number;
+  type: "credit" | "debit";
+  category: string;
+  description: string;
+  date: string;
+}
+
+interface WeeklyReportProps {
+  weeklyTransactions: Transaction[];
+}
 
 const chartConfig = {
   spent: {
@@ -35,7 +38,45 @@ const chartConfig = {
   },
 };
 
-const WeeklyReport = () => {
+const WeeklyReport = ({ weeklyTransactions = [] }: WeeklyReportProps) => {
+  const chartData = useMemo(() => {
+    // Initialize with 0 for all days
+    const daysMap: { [key: string]: number } = {
+      Mon: 0,
+      Tue: 0,
+      Wed: 0,
+      Thu: 0,
+      Fri: 0,
+      Sat: 0,
+      Sun: 0,
+    };
+
+    const dayNames = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+
+    if (weeklyTransactions && weeklyTransactions.length > 0) {
+      weeklyTransactions.forEach((transaction) => {
+        if (transaction.type === "debit") {
+          const date = new Date(transaction.date);
+          const dayName = dayNames[date.getDay()];
+          if (daysMap[dayName] !== undefined) {
+            daysMap[dayName] += transaction.amount;
+          }
+        }
+      });
+    }
+
+    // Convert map to array in order
+    return [
+      { day: "Mon", spent: daysMap["Mon"] },
+      { day: "Tue", spent: daysMap["Tue"] },
+      { day: "Wed", spent: daysMap["Wed"] },
+      { day: "Thu", spent: daysMap["Thu"] },
+      { day: "Fri", spent: daysMap["Fri"] },
+      { day: "Sat", spent: daysMap["Sat"] },
+      { day: "Sun", spent: daysMap["Sun"] },
+    ];
+  }, [weeklyTransactions]);
+
   return (
     <Card className="h-full border shadow-sm rounded-xl overflow-hidden">
       <CardHeader className="p-6 border-b bg-muted/20">

@@ -1,11 +1,11 @@
 import axios from "axios";
 
 const apiClient = axios.create({
-  baseURL: process.env.NEXT_PUBLIC_API_URL, 
+  baseURL: process.env.NEXT_PUBLIC_API_URL,
   headers: {
     "Content-Type": "application/json",
   },
-  withCredentials: true, 
+  withCredentials: true,
 });
 
 apiClient.interceptors.response.use(
@@ -13,10 +13,10 @@ apiClient.interceptors.response.use(
   (error) => {
     // Check if the error is 401 (Unauthorized)
     if (error.response?.status === 401) {
-      
+
       // Ensure this runs only in the browser (Client-side)
       if (typeof window !== "undefined") {
-        
+
         // 1. Attempt to clear client-accessible cookies
         // (Note: This won't clear HttpOnly cookies, but the redirect handles the rest)
         document.cookie.split(";").forEach((c) => {
@@ -30,7 +30,7 @@ apiClient.interceptors.response.use(
         window.location.href = "/auth/signin";
       }
     }
-    
+
     return Promise.reject(error);
   }
 );

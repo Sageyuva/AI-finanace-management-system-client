@@ -3,8 +3,9 @@
 import React from "react";
 import { Wallet } from "lucide-react";
 
-const TotalBalance = () => {
-  const totalBalance = 2450.75;
+const TotalBalance = ({ totalBalance }: { totalBalance: number }) => {
+
+
 
   return (
     <div className="flex items-center gap-3 px-4 py-2 bg-primary/10 border border-primary/20 rounded-2xl">
@@ -16,7 +17,7 @@ const TotalBalance = () => {
           Total Balance
         </span>
         <span className="text-sm font-black text-foreground tracking-tight">
-          $
+          ₹
           {totalBalance.toLocaleString(undefined, { minimumFractionDigits: 2 })}
         </span>
       </div>
