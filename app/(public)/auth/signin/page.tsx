@@ -23,7 +23,12 @@ export default function SignInPage() {
       const success = signin.data.success;
       if (status === 200 && success) {
         toast.success("Signin Success");
-        Cookies.set("token", token);
+        Cookies.set("token", token, {
+          path: "/",             // This makes the cookie available on all pages (dashboard, profile, etc.)
+          secure: true,          // REQUIRED for production (HTTPS)
+          sameSite: "None",      // REQUIRED for cross-domain usage
+          // domain: ".yourdomain.com" // Only use this if you use subdomains (see note below)
+        });
         router.push("/dashboard");
       }
     } catch (error: any) {
