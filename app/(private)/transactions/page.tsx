@@ -3,7 +3,6 @@ import PaginationFooter from "@/components/PaginationFooter";
 import TransactionCards from "@/components/TransactionCards";
 import SearchInput from "@/components/SearchInput";
 import DateFilter from "@/components/DateFilter";
-import React from "react";
 import { Button } from "@/components/ui/button";
 import { Plus } from "lucide-react";
 
