@@ -29,7 +29,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
         </header>
 
         <main className="flex-1 p-4 md:p-8 animate-in fade-in duration-700">
-          <div className="mx-auto max-w-7xl h-full">{children}</div>
+          <div className="mx-auto h-full w-full">{children}</div>
         </main>
       </SidebarInset>
     </SidebarProvider>
